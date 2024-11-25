@@ -1,6 +1,7 @@
 {
   "name": "@vevkit/saga-pino",
-  "version": "0.0.1",
+  "version": "0.1.0",
+  "type": "module",
   "description": "Pino transport for @vevkit/saga logger",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -9,10 +10,10 @@
   "scripts": {
     "build": "tsc",
     "test": "tsx --test src/__tests__/**/*.test.ts",
-    "test:watch": "tsx --test --watch src/__tests__/**/*.test.ts",
     "type-check": "tsc --noEmit",
     "lint": "eslint .",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "prepublishOnly": "npm run build"
   },
   "peerDependencies": {
     "@vevkit/saga": "^0.1.0",
@@ -26,8 +27,8 @@
     "eslint": "^8.0.0",
     "prettier": "^3.0.0",
     "tsup": "^8.0.0",
-    "typescript": "^5.0.0",
-    "tsx": "^4.7.0"
+    "tsx": "^4.7.0",
+    "typescript": "^5.0.0"
   },
   "keywords": ["vevkit", "saga", "pino", "logging", "transport"],
   "author": "",
@@ -39,5 +40,8 @@
   "bugs": {
     "url": "https://github.com/VevKit/saga-pino/issues"
   },
-  "homepage": "https://github.com/VevKit/saga-pino#readme"
+  "homepage": "https://github.com/VevKit/saga-pino#readme",
+  "publishConfig": {
+    "access": "public"
+  }
 }
