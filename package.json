@@ -16,7 +16,8 @@
   },
   "peerDependencies": {
     "@vevkit/saga": "^0.1.0",
-    "pino": "^8.0.0"
+    "pino": "^8.0.0",
+    "pino-pretty": "^10.0.0"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",

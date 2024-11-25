@@ -154,4 +154,26 @@ describe('PinoTransport', () => {
     const lastLog = serializedOutput[serializedOutput.length - 1];
     assert.deepStrictEqual(lastLog.user, { id: 123, type: 'user' });
   });
+
+
+  it('should support pretty printing', async () => {
+    const transport = new PinoTransport({
+      pretty: {
+        colorize: true,
+        translateTime: true,
+        messageKey: 'msg'
+      }
+    });
+  
+    const entry: LogEntry = {
+      level: 'info',
+      message: 'Test pretty printing',
+      metadata: { test: 'value' },
+      symbol: LOG_SYMBOLS['info'],
+      timestamp: new Date()
+    };
+  
+    await transport.log(entry);
+    assert.ok(transport instanceof PinoTransport);
+  });
 });

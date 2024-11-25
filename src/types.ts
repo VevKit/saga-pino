@@ -1,5 +1,14 @@
 import type { Logger as PinoLogger } from 'pino';
 
+export interface PinoPrettyOptions {
+  colorize?: boolean;
+  levelFirst?: boolean;
+  translateTime?: boolean | string;
+  ignore?: string;
+  messageKey?: string;
+  customPrettifiers?: Record<string, (input: any) => string>;
+}
+
 export interface PinoTransportConfig {
   instance?: PinoLogger;
   serializers?: {
@@ -9,4 +18,5 @@ export interface PinoTransportConfig {
     enabled: boolean;
     options?: any;
   };
+  pretty?: boolean | PinoPrettyOptions;
 }

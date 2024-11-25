@@ -1,6 +1,6 @@
 import pino from 'pino';
 import type { Transport, LogEntry } from '@vevkit/saga';
-import type { PinoTransportConfig } from './types';
+import type { PinoTransportConfig, PinoPrettyOptions } from './types';
 
 type LogLevel = 'fatal' | 'error' | 'warn' | 'info' | 'debug' | 'trace';
 type LogMethod = (obj: object | string, msg?: string) => void;
@@ -17,12 +17,31 @@ export class PinoTransport implements Transport {
   };
 
   constructor(private config: PinoTransportConfig = {}) {
-    this.logger = config.instance || pino({
+    const pinoOptions: pino.LoggerOptions = {
       serializers: {
         err: pino.stdSerializers.err,
         ...config.serializers
       }
-    });
+    };
+
+    if (config.pretty) {
+      const prettyOptions = typeof config.pretty === 'object' 
+        ? config.pretty
+        : {
+            colorize: true,
+            translateTime: true,
+            ignore: 'hostname,pid'
+          };
+
+      const transport = {
+        target: 'pino-pretty',
+        options: prettyOptions
+      };
+
+      this.logger = config.instance || pino(pinoOptions, pino.transport(transport));
+    } else {
+      this.logger = config.instance || pino(pinoOptions);
+    }
   }
 
   async log(entry: LogEntry): Promise<void> {
