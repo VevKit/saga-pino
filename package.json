@@ -8,8 +8,8 @@
   "files": ["dist"],
   "scripts": {
     "build": "tsc",
-    "test": "tsx --test src/__test__/**/*.test.ts",
-    "test:watch": "tsx --test --watch src/__test__/**/*.test.ts",
+    "test": "tsx --test src/__tests__/**/*.test.ts",
+    "test:watch": "tsx --test --watch src/__tests__/**/*.test.ts",
     "type-check": "tsc --noEmit",
     "lint": "eslint .",
     "format": "prettier --write ."

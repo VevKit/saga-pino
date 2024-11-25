@@ -116,24 +116,26 @@ describe('PinoTransport', () => {
 
   // Update the serializer test as well
   it('should use custom serializers', async () => {
-    const logs: Array<{ level: string; args: any[] }> = [];
-    const mockPino = pino({
-      level: 'trace',
-      transport: {
-        target: 'pino/file',
-        options: { destination: 1 }
+    // Create an array to capture the serialized output
+    const serializedOutput: any[] = [];
+    
+    // Create a custom transport for pino that captures the serialized output
+    const transport = {
+      write: (chunk: string) => {
+        serializedOutput.push(JSON.parse(chunk));
       }
-    });
-
-    (mockPino as any).info = (...args: any[]) => {
-      logs.push({ level: 'info', args });
     };
 
-    const transport = new PinoTransport({
-      instance: mockPino,
+    // Create Pino instance with the custom transport
+    const mockPino = pino({
+      level: 'trace',
       serializers: {
         user: (user: any) => ({ id: user.id, type: 'user' })
       }
+    }, transport);
+
+    const pinoTransport = new PinoTransport({
+      instance: mockPino
     });
 
     const entry: LogEntry = {
@@ -146,8 +148,10 @@ describe('PinoTransport', () => {
       timestamp: new Date()
     };
 
-    await transport.log(entry);
-    const lastLog = logs[logs.length - 1];
-    assert.deepStrictEqual(lastLog.args[0].user, { id: 123, type: 'user' });
+    await pinoTransport.log(entry);
+    
+    // Get the last log entry and check its serialized user property
+    const lastLog = serializedOutput[serializedOutput.length - 1];
+    assert.deepStrictEqual(lastLog.user, { id: 123, type: 'user' });
   });
 });

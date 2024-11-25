@@ -10,7 +10,7 @@ export class PinoTransport implements Transport {
   private levelMap: Record<string, LogLevel> = {
     critical: 'fatal',
     error: 'error',
-    warn: 'warn',
+    warning: 'warn',
     info: 'info',
     debug: 'debug',
     trace: 'trace'
